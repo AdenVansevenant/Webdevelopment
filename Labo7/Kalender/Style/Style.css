@@ -1,0 +1,38 @@
+body {
+    font-family: Arial, sans-serif;
+}
+.kalender {
+    border-collapse: collapse;
+    width: 300px;
+    margin: 0 auto;
+    border: 2px solid black;
+}
+.kalender th, .kalender td {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid #d0d0d0;
+}
+.maand {
+    background-color: rgb(170, 170, 200);
+    color: rgb(200, 190, 240);
+    font-weight: bold;
+    text-align: center;
+    font-size: 1.2em;
+    padding: 10px 0;
+}
+.dag {
+    background-color: rgb(35, 37, 70);
+    color: rgb(200, 190, 240);
+    font-weight: bold;
+}
+.vorige-maand, .vorige-maand {
+    color: gray;
+}
+.weekend {
+    background-color: rgb(255, 220, 220);
+}
+.feestdag {
+    background-color: rgb(250, 120, 120);
+    color: white;
+}

@@ -1,0 +1,29 @@
+section > header {
+    background: url('../images/header.jpg') no-repeat ;
+    color: white;
+    padding: 25px;
+}
+
+nav {
+    background-color: black;
+    padding: 5px;
+}
+
+nav a {
+    color: #00cc66;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+article{
+    background-color: lightgray;
+    margin: 5px;
+}
+article > header{
+    font-size: 25px;
+    text-decoration: underline;
+    padding-top: 10px;
+}
