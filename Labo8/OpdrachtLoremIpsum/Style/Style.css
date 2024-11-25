@@ -1,0 +1,8 @@
+.kolom{
+    width: calc(50% - 20px);
+    border: 1px solid black;
+    padding: 10px;
+    box-sizing: border-box;
+    float: left;
+    margin: 10px;
+}
