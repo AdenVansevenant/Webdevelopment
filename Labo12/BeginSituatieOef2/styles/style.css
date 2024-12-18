@@ -1,0 +1,68 @@
+html {
+    background-color: #333;
+    font-family: helvetica;
+}
+body {
+    background-color: white;
+}
+main{
+    background-color: grey;
+    display: block;
+}
+nav{
+    background-color: lightgray;
+    display: flex;
+    justify-content: space-evenly;
+
+}
+nav a {
+    border: 1px solid black;
+    background-color: white;
+    color: orange;
+    padding: 20px;
+    justify-content: space-around;
+    margin: 10px;
+    flex:1;
+
+}
+
+section{
+    background-color: white;
+    border: 1px solid black;
+    margin: 15px;
+
+}
+section a{
+    border: 1px solid black;
+    text-align: center;
+    display: block;
+    text-decoration: none;
+    color: black;
+}
+footer{
+    background-color: orange;
+    text-align: center;
+}
+* {
+    padding: 10px;
+}
+section img{
+    width:98%;
+    margin:auto;
+    display: block;
+    margin: auto;
+}
+header{
+    background-color: orange;
+}
+
+@media only screen and (min-width: 700px)
+{
+
+    main{
+        display: flex;
+        justify-content: space-evenly;
+    }
+}
+
+
