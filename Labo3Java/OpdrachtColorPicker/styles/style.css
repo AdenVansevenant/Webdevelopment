@@ -1,0 +1,12 @@
+.veranderkleur{
+    width: 80px;
+    height: 80px;
+    border: 1px solid black;
+    background-color: rgb(240, 240, 240);
+    border-radius: 5px;
+}
+.sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
