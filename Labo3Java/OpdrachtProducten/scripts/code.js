@@ -6,9 +6,9 @@ const herbereken = () => {
     let totaal = 0;
 
     for (let i = 0; i < prijzen.length; i++) {
-        let prijs = parseFloat(prijzen[i].textContent.replace(" Eur", ""));
+        let prijs = prijzen[i];
         let aantal = parseFloat(aantallen[i].value);
-        let btw = parseFloat(btwTarieven[i].textContent.replace("%", "")) / 100;
+        let btw = parseFloat(btwTarieven[i]) / 100;
 
         let subtotaal = aantal * prijs * (1 + btw);
         subtotals[i].textContent = subtotaal.toFixed(2) + " Eur";
