@@ -1,0 +1,91 @@
+/* Algemene body styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Styling voor kopteksten */
+h1, h2 {
+    color: #333;
+    text-align: center;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 36px;
+    letter-spacing: 2px;
+    margin-top: 30px;
+}
+
+h2 {
+    font-size: 28px;
+    margin-top: 15px;
+}
+
+/* Styling voor de lijsten */
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling voor de geneste lijsten (ol) */
+ol {
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+/* Styling voor de links */
+a {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #e74c3c;
+}
+
+/* Styling voor de lijstitems met links */
+li a {
+    display: block;
+    padding: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+li a:hover {
+    background-color: #ecf0f1;
+}
+
+/* Styling voor Labo-groepen */
+h2 {
+    color: #2c3e50;
+    font-weight: bold;
+    text-align: left;
+}
+
+/* Styling voor de hele pagina */
+ul, ol {
+    padding-left: 40px;
+}
+
