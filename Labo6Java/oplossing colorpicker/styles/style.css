@@ -1,0 +1,45 @@
+.slider {
+	vertical-align: middle;
+}
+.component span:nth-of-type(2) {
+	display: inline-block;
+	width: 3em;
+	text-align: right;
+}
+.swatch {
+	display: inline-block;
+	border: solid 1px black;
+	margin: 0 0 0 1em;
+	height: 4em;
+	width: 5em;
+}
+.components {
+	display: inline-block;
+	height: 100%;
+}
+.colorPicker {
+	display: inline-block;
+	border: solid 5px lightgrey;
+	border-radius: 10px;
+	padding: 10px;
+}
+#savedSwatches {
+	margin-top: 10px;
+}
+.savedSwatch {
+	display: inline-block;
+	width: 60px;
+	height: 60px;
+	border: 1px solid black;
+	position: relative;
+	margin-right: 5px;
+	cursor: pointer;
+}
+.deleteSwatch {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	background: white;
+	border: none;
+	cursor: pointer;
+}
