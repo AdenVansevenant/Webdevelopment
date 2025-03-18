@@ -1,6 +1,8 @@
-const setup = () => {
-    let tekst = document.createElement("p");
-    tekst.textContent = "Nieuwe tekst!";
-    document.getElementById("myDIV").appendChild(tekst);
-}
-window.addEventListener("load", setup);
+window.addEventListener("load", () => {
+    const button = document.getElementById('addTextButton');
+    button.addEventListener('click', () => {
+        let tekst = document.createElement("p");
+        tekst.textContent = "blablabla";
+        document.getElementById("myDIV").appendChild(tekst);
+    });
+});
