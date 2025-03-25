@@ -1,0 +1,21 @@
+/* Kaarten standaard (omgedraaid) */
+.card {
+    width: 100px;
+    height: 100px;
+    background-color: #ccc;  /* Neutrale kleur als achterkant */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Als de kaart is omgedraaid */
+.card.flipped {
+    background-color: transparent;  /* Maak de achtergrond transparant als de kaart is omgedraaid */
+    background-size: cover;
+}
+
+/* Als de kaart gematcht is, kun je een visuele indicatie toevoegen */
+.card.matched {
+    background-color: transparent;
+    pointer-events: none;
+}
