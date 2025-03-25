@@ -1,21 +1,28 @@
-/* Kaarten standaard (omgedraaid) */
+.game-container {
+    display: grid;
+    grid-template-columns: repeat(4, 150px);
+    grid-template-rows: repeat(3, 150px);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 .card {
-    width: 100px;
-    height: 100px;
-    background-color: #ccc;  /* Neutrale kleur als achterkant */
+    width: 150px;
+    height: 150px;
+    background-color: grey;
     border-radius: 8px;
     cursor: pointer;
     transition: transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
 }
 
-/* Als de kaart is omgedraaid */
 .card.flipped {
-    background-color: transparent;  /* Maak de achtergrond transparant als de kaart is omgedraaid */
+    background-color: transparent;
     background-size: cover;
 }
 
-/* Als de kaart gematcht is, kun je een visuele indicatie toevoegen */
-.card.matched {
-    background-color: transparent;
-    pointer-events: none;
-}
