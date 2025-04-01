@@ -60,7 +60,7 @@ const selecteerPersoon = (event) => {
 const verwijderPersoon = () => {
     if (index !== -1) {
         let geselecteerdeId = personen[index].id;
-        personen = personen.filter(p => p.id !== geselecteerdeId);
+        personen = personen.filter(p => p.id !== geselecteerdeId); // nieuwe array zonder de geselecteerde, dus uit de array halen
         updatePersonenLijst();
         bewerkNieuwePersoon();
     }
