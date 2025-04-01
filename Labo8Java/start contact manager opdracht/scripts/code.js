@@ -6,6 +6,7 @@ const bewaarBewerktePersoon = () => {
     let fouten = document.querySelectorAll(".errorMessage:not(:empty)");
     if (fouten.length > 0) return;
     let persoon = {
+        id: index === -1 ? Date.now() : personen[index].id,
         voornaam: document.getElementById("txtVoornaam").value.trim(),
         familienaam: document.getElementById("txtFamilienaam").value.trim(),
         geboortedatum: document.getElementById("txtGeboorteDatum").value.trim(),
@@ -13,25 +14,26 @@ const bewaarBewerktePersoon = () => {
         aantalKinderen: document.getElementById("txtAantalKinderen").value.trim()
     };
 
-    if (index === -1) { // als er nog niets instaat zet hij het in de box
-        personen.push(persoon); // ==> toevoegen aan box
+    if (index === -1) {
+        personen.push(persoon);
     } else {
-
         personen[index] = persoon;
     }
 
+    personen.sort((a,b) => a.voornaam.localeCompare(b.voornaam, 'nl', {sensitivity: "base"}));
     updatePersonenLijst();
-    bewerkNieuwePersoon();  // Reset formulier na bewaren
+    bewerkNieuwePersoon();
 };
 
+
 const updatePersonenLijst = () => {
-    let lijstPersoonen = document.getElementById("lstPersonen");
-    lijstPersoonen.innerHTML = "";  // Leeg de lijst
-    personen.forEach((persoon, index) => {
+    let lijstPersonen = document.getElementById("lstPersonen");
+    lijstPersonen.innerHTML = "";
+    personen.forEach((persoon) => {
         let option = document.createElement("option");
         option.textContent = `${persoon.voornaam} ${persoon.familienaam}`;
-        option.value = index;
-        lijstPersoonen.appendChild(option);
+        option.value = persoon.id;
+        lijstPersonen.appendChild(option);
     });
 };
 
@@ -45,7 +47,8 @@ const bewerkNieuwePersoon = () => {
 };
 
 const selecteerPersoon = (event) => {
-    index = event.target.value;
+    let geselecteerdeId = parseInt(event.target.value);
+    index = personen.findIndex(p => p.id === geselecteerdeId);
     let persoon = personen[index];
     document.getElementById("txtVoornaam").value = persoon.voornaam;
     document.getElementById("txtFamilienaam").value = persoon.familienaam;
@@ -54,9 +57,20 @@ const selecteerPersoon = (event) => {
     document.getElementById("txtAantalKinderen").value = persoon.aantalKinderen;
 };
 
+const verwijderPersoon = () => {
+    if (index !== -1) {
+        let geselecteerdeId = personen[index].id;
+        personen = personen.filter(p => p.id !== geselecteerdeId);
+        updatePersonenLijst();
+        bewerkNieuwePersoon();
+    }
+};
+
+
 const setup = () => {
     document.getElementById("btnBewaar").addEventListener("click", bewaarBewerktePersoon);
     document.getElementById("btnNieuw").addEventListener("click", bewerkNieuwePersoon);
+    document.getElementById("btnVerwijder").addEventListener("click", verwijderPersoon);
     document.getElementById("lstPersonen").addEventListener("change", selecteerPersoon);
 };
 
