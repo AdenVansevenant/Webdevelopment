@@ -1,39 +1,63 @@
 let personen = [];
+let index = -1;
 
-// Event listener (btnBewaar click)
-// Bewaar de wijzigingen die in de user interface werden aangebracht
 const bewaarBewerktePersoon = () => {
-    console.log("Klik op de knop bewaar");
-
-    // valideer alle input data en controleer of er geen errors meer zijn
     valideer();
+    let fouten = document.querySelectorAll(".errorMessage:not(:empty)");
+    if (fouten.length > 0) return;
+    let persoon = {
+        voornaam: document.getElementById("txtVoornaam").value.trim(),
+        familienaam: document.getElementById("txtFamilienaam").value.trim(),
+        geboortedatum: document.getElementById("txtGeboorteDatum").value.trim(),
+        email: document.getElementById("txtEmail").value.trim(),
+        aantalKinderen: document.getElementById("txtAantalKinderen").value.trim()
+    };
 
-    // indien ok, bewaar de ingegeven data.
-        // een nieuw aangemaakte persoon voegen we toe
-        // een bestaande persoon in de lijst passen we aan
+    if (index === -1) { // als er nog niets instaat zet hij het in de box
+        personen.push(persoon); // ==> toevoegen aan box
+    } else {
 
-    // zorg ervoor dat de naam en voornaam ook aangepast en/of zichtbaar zijn in de lijst na updaten
+        personen[index] = persoon;
+    }
+
+    updatePersonenLijst();
+    bewerkNieuwePersoon();  // Reset formulier na bewaren
 };
 
-// Event listener (btnNieuw click)
+const updatePersonenLijst = () => {
+    let lijstPersoonen = document.getElementById("lstPersonen");
+    lijstPersoonen.innerHTML = "";  // Leeg de lijst
+    personen.forEach((persoon, index) => {
+        let option = document.createElement("option");
+        option.textContent = `${persoon.voornaam} ${persoon.familienaam}`;
+        option.value = index;
+        lijstPersoonen.appendChild(option);
+    });
+};
+
 const bewerkNieuwePersoon = () => {
-    console.log("Klik op de knop nieuw");
-
-    // Zet de user interface klaar om de gegevens van een nieuwe persoon in te voeren
+    document.getElementById("txtVoornaam").value = "";
+    document.getElementById("txtFamilienaam").value = "";
+    document.getElementById("txtGeboorteDatum").value = "";
+    document.getElementById("txtEmail").value = "";
+    document.getElementById("txtAantalKinderen").value = "";
+    index = -1;
 };
 
+const selecteerPersoon = (event) => {
+    index = event.target.value;
+    let persoon = personen[index];
+    document.getElementById("txtVoornaam").value = persoon.voornaam;
+    document.getElementById("txtFamilienaam").value = persoon.familienaam;
+    document.getElementById("txtGeboorteDatum").value = persoon.geboortedatum;
+    document.getElementById("txtEmail").value = persoon.email;
+    document.getElementById("txtAantalKinderen").value = persoon.aantalKinderen;
+};
 
-// onze setup functie die de event listeners registreert
 const setup = () => {
-    let btnBewaar = document.getElementById("btnBewaar");
-    btnBewaar.addEventListener("click", bewaarBewerktePersoon);
-
-    let btnNieuw = document.getElementById("btnNieuw");
-    btnNieuw.addEventListener("click", bewerkNieuwePersoon);
-
-    let lstPersonen = document.getElementById("lstPersonen");
-    // voeg een change listener toe aan lstPersonen. Bij het klikken op een option element in de lijst
-    // moet de data van die persoon getoond worden in het formulier
+    document.getElementById("btnBewaar").addEventListener("click", bewaarBewerktePersoon);
+    document.getElementById("btnNieuw").addEventListener("click", bewerkNieuwePersoon);
+    document.getElementById("lstPersonen").addEventListener("change", selecteerPersoon);
 };
 
 window.addEventListener("load", setup);
