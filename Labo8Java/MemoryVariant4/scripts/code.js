@@ -61,7 +61,8 @@ const omdraaien = (event) => {
 
     omgekeerdeKaarten.push(card);
 
-    if (omgekeerdeKaarten.length === 2) {
+    // Als we het aantal kaarten hebben bereikt dat we moeten omdraaien
+    if (omgekeerdeKaarten.length === parseInt(AANTAL_HERHALINGEN)) {
         zelfde();
     }
 };
@@ -69,18 +70,26 @@ const omdraaien = (event) => {
 const zelfde = () => {
     omgedraaid = true;
 
-    const [card1, card2] = omgekeerdeKaarten;
-    if (card1.dataset.kaart === card2.dataset.kaart) {
-        card1.classList.add('matched');
-        card2.classList.add('matched');
+    const kaartenOmgedraaid = omgekeerdeKaarten;
+
+    // Controleer of alle omgedraaide kaarten hetzelfde zijn
+    const eersteKaart = kaartenOmgedraaid[0].dataset.kaart;
+    const alleZelfde = kaartenOmgedraaid.every(card => card.dataset.kaart === eersteKaart);
+
+    if (alleZelfde) {
+        // Als ze allemaal dezelfde afbeelding hebben, markeer ze als "matched"
+        kaartenOmgedraaid.forEach(card => {
+            card.classList.add('matched');
+        });
         omgekeerdeKaarten = [];
         omgedraaid = false;
     } else {
+        // Als ze niet hetzelfde zijn, draai ze om na een korte tijd
         setTimeout(() => {
-            card1.classList.remove('flipped');
-            card2.classList.remove('flipped');
-            card1.style.backgroundImage = '';
-            card2.style.backgroundImage = '';
+            kaartenOmgedraaid.forEach(card => {
+                card.classList.remove('flipped');
+                card.style.backgroundImage = '';
+            });
             omgekeerdeKaarten = [];
             omgedraaid = false;
         }, 1000);
