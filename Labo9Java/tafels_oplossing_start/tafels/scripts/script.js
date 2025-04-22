@@ -10,18 +10,10 @@ const setup = () => {
     getalLabel.addEventListener("click", () => getalInput.focus());
 
     formulier.addEventListener("submit", (e) => {
-        e.preventDefault();
+            e.preventDefault();
         const waarde = getalInput.value.trim();
 
-        if (!waarde || isNaN(waarde)) {
-            alert("Gelieve een geldig getal in te voeren.");
-            return;
-        }
-
         const getal = Number(waarde);
-
-        // Check of het getal al eerder werd toegevoegd (optioneel)
-        // toegevoegdeTafels.find(obj => obj.getal === getal)
 
         const tijdstip = new Date().toLocaleTimeString();
         toegevoegdeTafels.push({ getal, tijdstip });
