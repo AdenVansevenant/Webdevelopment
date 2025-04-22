@@ -1,0 +1,64 @@
+const setup = () => {
+    const getalInput = document.getElementById("getal");
+    const getalLabel = document.getElementById("getalLabel");
+    const formulier = document.getElementById("tafelForm");
+    const tafelsContainer = document.getElementById("tafels");
+
+    // Elke item is nu een object met getal + tijdstip
+    const toegevoegdeTafels = [];
+
+    getalLabel.addEventListener("click", () => getalInput.focus());
+
+    formulier.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const waarde = getalInput.value.trim();
+
+        if (!waarde || isNaN(waarde)) {
+            alert("Gelieve een geldig getal in te voeren.");
+            return;
+        }
+
+        const getal = Number(waarde);
+
+        // Check of het getal al eerder werd toegevoegd (optioneel)
+        // toegevoegdeTafels.find(obj => obj.getal === getal)
+
+        const tijdstip = new Date().toLocaleTimeString();
+        toegevoegdeTafels.push({ getal, tijdstip });
+
+        getalInput.value = "";
+        toonTafels();
+    });
+
+    const toonTafels = () => {
+        tafelsContainer.innerHTML = "";
+
+        toegevoegdeTafels.forEach((tafelInfo) => {
+            const getal = tafelInfo.getal;
+            const tijdstip = tafelInfo.tijdstip;
+
+            const tafelBlok = document.createElement("div");
+            tafelBlok.className = "tafel";
+
+            const kop = document.createElement("div");
+            kop.className = "tafel-header";
+            kop.textContent = "Tafel van " + getal + " aangemaakt op: " + tijdstip;
+            tafelBlok.appendChild(kop);
+
+            for (let i = 1; i <= 10; i++) {
+                const rij = document.createElement("div");
+                rij.className = "rij";
+                if (i % 2 === 0) {
+                    rij.classList.add("even");
+                }
+                rij.textContent = i + " x " + getal + " = " + (i * getal);
+                tafelBlok.appendChild(rij);
+            }
+
+            tafelsContainer.appendChild(tafelBlok);
+        });
+    };
+
+};
+
+window.addEventListener("load", setup);
