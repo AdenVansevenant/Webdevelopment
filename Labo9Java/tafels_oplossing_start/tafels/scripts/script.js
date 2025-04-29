@@ -4,19 +4,19 @@ const setup = () => {
     const formulier = document.getElementById("tafelForm");
     const tafelsContainer = document.getElementById("tafels");
 
-    // Elke item is nu een object met getal + tijdstip
-    const toegevoegdeTafels = [];
+    let toegevoegdeTafels = JSON.parse(sessionStorage.getItem("tafels")) || [];
 
     getalLabel.addEventListener("click", () => getalInput.focus());
 
     formulier.addEventListener("submit", (e) => {
-            e.preventDefault();
         const waarde = getalInput.value.trim();
 
         const getal = Number(waarde);
 
         const tijdstip = new Date().toLocaleTimeString();
         toegevoegdeTafels.push({ getal, tijdstip });
+
+        sessionStorage.setItem("tafels", JSON.stringify(toegevoegdeTafels));
 
         getalInput.value = "";
         toonTafels();
@@ -48,9 +48,11 @@ const setup = () => {
             }
 
             tafelsContainer.appendChild(tafelBlok);
+            getalInput.focus();
         });
     };
 
+    toonTafels();
 };
 
 window.addEventListener("load", setup);
