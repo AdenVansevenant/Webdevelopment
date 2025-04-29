@@ -59,14 +59,15 @@ const maakcommando = () => {
     toonHistory(geschiedenis);
 };
 
-// Sorteer de geschiedenis op platform (Google, YouTube, Twitter, Instagram)
 const sorteerGeschiedenis = (geschiedenis) => {
     const volgorde = ['Google', 'YouTube', 'Twitter', 'Instagram'];
 
     return geschiedenis.sort((a, b) => {
         return volgorde.indexOf(a.title) - volgorde.indexOf(b.title);
+
     });
 };
+
 
 const removeHistoryItem = (index) => {
     let geschiedenis = JSON.parse(localStorage.history);
@@ -81,6 +82,7 @@ const toonHistory = (geschiedenis) => {
 
     // Sorteer de geschiedenis eerst op platform
     geschiedenis = sorteerGeschiedenis(geschiedenis);
+    geschiedenis =
 
     geschiedenis.forEach((item, index) => {
         container.innerHTML += `
