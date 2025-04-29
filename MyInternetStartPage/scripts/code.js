@@ -3,9 +3,14 @@ let input;
 const setup = () => {
     input = document.getElementById('tekstvak');
     document.getElementById('zoekknop').addEventListener('click', maakcommando);
+    document.getElementById('sorteerSelect').addEventListener('change', () => {
+        const sortOrder = document.getElementById('sorteerSelect').value;
+        toonHistory(JSON.parse(localStorage.history || "[]"), sortOrder);
+    });
 
+    const sortOrder = document.getElementById('sorteerSelect').value;
     if (localStorage.history) {
-        toonHistory(JSON.parse(localStorage.history));
+        toonHistory(JSON.parse(localStorage.history), sortOrder);
     }
 };
 
@@ -56,33 +61,41 @@ const maakcommando = () => {
 
     window.open(url, '_blank');
     input.value = '';
-    toonHistory(geschiedenis);
+
+    const sortOrder = document.getElementById('sorteerSelect').value;
+    toonHistory(geschiedenis, sortOrder);
 };
 
-const sorteerGeschiedenis = (geschiedenis) => {
+const sorteerGeschiedenis = (geschiedenis, sortOrder = 'asc') => {
     const volgorde = ['Google', 'YouTube', 'Twitter', 'Instagram'];
 
     return geschiedenis.sort((a, b) => {
-        return volgorde.indexOf(a.title) - volgorde.indexOf(b.title);
+        const volgordeA = volgorde.indexOf(a.title);
+        const volgordeB = volgorde.indexOf(b.title);
 
+        if (volgordeA !== volgordeB) {
+            return volgordeA - volgordeB;
+        }
+
+        const vergelijking = a.text.toLowerCase().localeCompare(b.text.toLowerCase());
+        return sortOrder === 'asc' ? vergelijking : -vergelijking;
     });
 };
-
 
 const removeHistoryItem = (index) => {
     let geschiedenis = JSON.parse(localStorage.history);
     geschiedenis.splice(index, 1);
     localStorage.history = JSON.stringify(geschiedenis);
-    toonHistory(geschiedenis);
+
+    const sortOrder = document.getElementById('sorteerSelect').value;
+    toonHistory(geschiedenis, sortOrder);
 };
 
-const toonHistory = (geschiedenis) => {
+const toonHistory = (geschiedenis, sortOrder = 'asc') => {
     const container = document.getElementById('rij');
     container.innerHTML = '';
 
-    // Sorteer de geschiedenis eerst op platform
-    geschiedenis = sorteerGeschiedenis(geschiedenis);
-    geschiedenis =
+    geschiedenis = sorteerGeschiedenis(geschiedenis, sortOrder);
 
     geschiedenis.forEach((item, index) => {
         container.innerHTML += `

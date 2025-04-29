@@ -9,7 +9,9 @@
 
 <div class="container my-5">
     <h1 class="text-center mb-4">My Internet Start Page</h1>
-    <h2>extra mogelijkheden: verwijderknop + gesorteerd per titel</h2>
+    <h2>extra mogelijkheden: verwijderknop + gesorteerd per titel + dropdownlist met 'a tot z' en 'z tot a'</h2>
+
+
 
     <div class="mb-3">
         <label for="tekstvak" class="form-label">Zoekopdracht</label>
@@ -19,6 +21,13 @@
 
     <div class="d-grid gap-2 col-6 mx-auto mb-5">
         <button class="btn btn-success btn-lg" id="zoekknop">GO!</button>
+    </div>
+    <div class="mb-3">
+        <label for="sorteerSelect" class="form-label">Sorteer op tekst</label>
+        <select class="form-select w-auto" id="sorteerSelect">
+            <option value="asc">A tot Z</option>
+            <option value="desc">Z tot A</option>
+        </select>
     </div>
 
     <h2 class="mb-4">History</h2>
