@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="nl-be">
+
+<head>
+	<title>Quizzy</title>
+	<link rel="stylesheet" href="styles/bootstrap.min.css">
+	<link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body>
+	<p id="instructions"
+		style="visibility: hidden; padding: 1em; border-left: 3px solid #ce0000; background-color: #ce000050; font-weight: bold; height: 18px; box-sizing: initial;">
+	</p>
+	<section class="container">
+		<header class="row">
+			<h1>Quizzy</h1>
+		</header>
+		<div class="container">
+			<button class="btn btn-primary w-100 py-3" id="start">Start quiz</button>
+		</div>
+		<div class="container d-none">
+			<p class="py-3 display-3">
+				<span id="score"></span>
+				<button class="btn btn-primary w-100 py-3" id="restart">Herstart quiz</button>
+			</p>
+		</div>
+		<div id="quiz" class="row d-none">
+			<div class="col-2">
+				<ul class="list-group" id="questions">
+				</ul>
+				<p class="w-100 mt-3">
+					<button class="w-100 btn btn-primary" id="submit">Indienen</button>
+				</p>
+			</div>
+			<div class="col-10">
+				<div class="card">
+					<h5 class="card-header"></h5>
+					<div class="card-body">
+						<p class="card-title"></p>
+					</div>
+					<ul class="list-group list-group-flush" id="answers">
+					</ul>
+					<div class="card-footer">
+						<button class="btn btn-success">Opslaan</button>
+						<p class="float-end">Gestart op <span id="started"></span></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer class="row mt-5" id="highscores">
+			<h2>Highscores <button id="reset" class="badge text-bg-secondary">Reset</button></h2>
+		</footer>
+	</section>
+
+</body>
+
+</html>
