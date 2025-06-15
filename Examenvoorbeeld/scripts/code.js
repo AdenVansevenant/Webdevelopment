@@ -61,168 +61,164 @@ const quizData = [
     }
 ];
 
-let currentQuestionIndex = 0;
-let juisteAntwoorden = 0;
 
-const setup = () => {
-    document.getElementById("start").addEventListener("click", Startspel);
-    document.getElementById("submit").addEventListener("click", () => {
-        const scoreText = `Je score: ${juisteAntwoorden} van ${quizData.length}`;
-        const footer = document.getElementById("highscores");
-        const scoreElement = document.createElement("p");
-        scoreElement.innerText = scoreText;
-        footer.appendChild(scoreElement);
+let currentQuestionIndex = 0; // Houdt bij welke vraag momenteel actief is
+let juisteAntwoorden = 0; // Aantal correcte antwoorden tot nu toe
 
-        let scores = JSON.parse(localStorage.getItem("quizScores")) || [];
-        scores.push(scoreText);
-        localStorage.setItem("quizScores", JSON.stringify(scores));
+const setup = () => { // Functie die uitgevoerd wordt als de pagina geladen is
+    document.getElementById("start").addEventListener("click", Startspel); // Startknop activeert Startspel
+    document.getElementById("submit").addEventListener("click", () => { // Submitknop om score op te slaan
+        const scoreText = `Je score: ${juisteAntwoorden} van ${quizData.length}`; // Tekst met eindscore
+        const footer = document.getElementById("highscores"); // Footer waar score getoond wordt
+        const scoreElement = document.createElement("p"); // Nieuw paragraafelement maken
+        scoreElement.innerText = scoreText; // Score erin zetten
+        footer.appendChild(scoreElement); // Toevoegen aan DOM
+
+        let scores = JSON.parse(localStorage.getItem("quizScores")) || []; // Scores ophalen uit localStorage of nieuwe lijst maken
+        scores.push(scoreText); // Nieuwe score toevoegen
+        localStorage.setItem("quizScores", JSON.stringify(scores)); // Scores terug opslaan
     });
-    document.querySelector("#quiz > div.col-10 > div > div.card-footer > button").addEventListener("click", checkAntwoord);
-    document.getElementById("reset").addEventListener("click", reset);
 
-    const savedScores = JSON.parse(localStorage.getItem("quizScores")) || [];
-    const footer = document.getElementById("highscores");
-    savedScores.forEach(scoreText => {
-        const scoreElement = document.createElement("p");
-        scoreElement.innerText = scoreText;
-        footer.appendChild(scoreElement);
+    // Knop om antwoord te controleren
+    document.querySelector("#quiz > div.col-10 > div > div.card-footer > button")
+        .addEventListener("click", checkAntwoord); // Koppelt de checkknop aan functie
+
+    // Resetknop opnieuw spel starten
+    document.getElementById("reset").addEventListener("click", reset); // Resetknop activeert reset()
+
+    // Reeds opgeslagen scores tonen bij opstart
+    const savedScores = JSON.parse(localStorage.getItem("quizScores")) || []; // Scores ophalen
+    const footer = document.getElementById("highscores"); // Element voor highscores
+    savedScores.forEach(scoreText => { // Elke score tonen in de footer
+        const scoreElement = document.createElement("p"); // Nieuw paragraaf element
+        scoreElement.innerText = scoreText; // Tekst erin
+        footer.appendChild(scoreElement); // Toevoegen aan pagina
     });
 };
 
-const Startspel = () => {
-    document.getElementById("started").innerText = new Date().toLocaleTimeString();
-    document.getElementById("start").parentElement.classList.add("d-none");
-    document.getElementById("quiz").classList.remove("d-none");
+const Startspel = () => { // Start het spel
+    document.getElementById("started").innerText = new Date().toLocaleTimeString(); // Toon starttijd
+    document.getElementById("start").parentElement.classList.add("d-none"); // Verberg startknop
+    document.getElementById("quiz").classList.remove("d-none"); // Toon quizdeel
 
-    const questionList = document.getElementById("questions");
-    questionList.innerText = "";
+    const questionList = document.getElementById("questions"); // Element waar vraagnummers komen
+    questionList.innerText = ""; // Leegmaken voor nieuwe opbouw
 
-    quizData.forEach((vraag, index) => {
-        const li = document.createElement("li");
-        li.className = "list-group-item list-group-item-action";
-        li.innerText = `Vraag ${index + 1}`;
-        li.style.cursor = "pointer";
-        li.addEventListener("click", () => toonvraag(index));
-        questionList.appendChild(li);
+    quizData.forEach((vraag, index) => { // Voor elke vraag:
+        const li = document.createElement("li"); // Nieuw lijstitem maken
+        li.className = "list-group-item list-group-item-action"; // Bootstrap klassen
+        li.innerText = `Vraag ${index + 1}`; // Vraagnummer tonen
+        li.style.cursor = "pointer"; // Maak klikbaar
+        li.addEventListener("click", () => toonvraag(index)); // Klik toont die vraag
+        questionList.appendChild(li); // Toevoegen aan lijst
     });
-    toonvraag(0);
 
-    const listItems = document.querySelectorAll("#questions .list-group-item");
-    const vraag = quizData[currentQuestionIndex];
-    const currentLi = listItems[currentQuestionIndex];
+    toonvraag(0); // Start met de eerste vraag
 
-    currentLi.style.background = "#0d6efd";
-    currentLi.style.color = "#ffffff";
+    const listItems = document.querySelectorAll("#questions .list-group-item"); // Alle vraagnummers
+    const currentLi = listItems[currentQuestionIndex]; // Huidige vraagnummer
+    currentLi.style.background = "#0d6efd"; // Blauwe achtergrond
+    currentLi.style.color = "#ffffff"; // Witte tekst
 };
 
-const toonvraag = (index) => {
-    currentQuestionIndex = index;
-    const vraag = quizData[index];
-    document.querySelector(".card-header").innerText = `Vraag ${index + 1}`;
-    document.querySelector(".card-body").innerText = vraag.question;
+const toonvraag = (index) => { // Toont een bepaalde vraag
+    currentQuestionIndex = index; // Zet huidige vraag op deze index
+    const vraag = quizData[index]; // Haal vraagobject op
 
-    const antwoorden = document.getElementById("answers");
-    antwoorden.innerText = "";
+    document.querySelector(".card-header").innerText = `Vraag ${index + 1}`; // Zet koptekst van kaart
+    document.querySelector(".card-body").innerText = vraag.question; // Zet vraagtekst
 
-    vraag.answers.forEach((answer, i) => {
-        const li = document.createElement("li");
-        li.className = "list-group-item";
-        li.innerText = answer;
-        li.style.cursor = "pointer";
-        li.addEventListener("click", () => {
-            vraag.selected = answer;
-            const alleAntwoorden = document.querySelectorAll("#answers .list-group-item");
+    const antwoorden = document.getElementById("answers"); // Element voor antwoorden
+    antwoorden.innerText = ""; // Leegmaken
+
+    vraag.answers.forEach((answer) => { // Voor elk antwoord:
+        const li = document.createElement("li"); // Nieuw antwoord item
+        li.className = "list-group-item"; // Bootstrap klasse
+        li.innerText = answer; // Antwoordtekst tonen
+        li.style.cursor = "pointer"; // Klikbaar maken
+
+        li.addEventListener("click", () => { // Wanneer erop geklikt wordt:
+            vraag.selected = answer; // Gekozen antwoord opslaan
+
+            const alleAntwoorden = document.querySelectorAll("#answers .list-group-item"); // Alle opties
             alleAntwoorden.forEach(a => {
-                a.style.backgroundColor = "";
-                a.style.color = "";
+                a.style.backgroundColor = ""; // Reset achtergrond
+                a.style.color = ""; // Reset kleur
             });
-            li.style.backgroundColor = "#0d6efd";
-            li.style.color = "white";
+
+            li.style.backgroundColor = "#0d6efd"; // Blauwe achtergrond
+            li.style.color = "white"; // Witte tekst
         });
-        antwoorden.appendChild(li);
+
+        antwoorden.appendChild(li); // Antwoord toevoegen aan lijst
     });
 
-    const listItems = document.querySelectorAll("#questions .list-group-item");
-    const currentLi = listItems[currentQuestionIndex];
-    currentLi.style.background = "#0d6efd";
-    currentLi.style.color = "#ffffff";
+    const listItems = document.querySelectorAll("#questions .list-group-item"); // Alle vraagnummers
+    const currentLi = listItems[currentQuestionIndex]; // Huidige vraagnummer
+    currentLi.style.background = "#0d6efd"; // Markeren in blauw
+    currentLi.style.color = "#ffffff"; // Witte tekst
 };
 
-const checkAntwoord = () =>{
-    const listItems = document.querySelectorAll("#questions .list-group-item");
-    const vraag = quizData[currentQuestionIndex];
-    const currentLi = listItems[currentQuestionIndex];
+const checkAntwoord = () => { // Controleer gekozen antwoord
+    const listItems = document.querySelectorAll("#questions .list-group-item"); // Vraagnummers
+    const vraag = quizData[currentQuestionIndex]; // Huidige vraag
+    const currentLi = listItems[currentQuestionIndex]; // Huidige lijstitem
 
-    currentLi.style.background = "#0d6efd";
-    currentLi.style.color = "#ffffff";
-
-    if (vraag.selected === vraag.correct) {
-        currentLi.style.backgroundColor = "#198754"; // Bootstrap success kleur
-        currentLi.style.color = "white";
-        juisteAntwoorden++;
+    if (vraag.selected === vraag.correct) { // Als juist beantwoord
+        currentLi.style.backgroundColor = "#198754"; // Groen
+        currentLi.style.color = "white"; // Witte tekst
+        juisteAntwoorden++; // Tel op bij juiste antwoorden
     } else {
-        currentLi.style.backgroundColor = "#dc3545"; // Bootstrap danger kleur
-        currentLi.style.color = "white";
+        currentLi.style.backgroundColor = "#dc3545"; // Rood
+        currentLi.style.color = "white"; // Witte tekst
     }
 
-    currentLi.style.pointerEvents = "none";
-    currentLi.classList.add("disabled");
+    currentLi.style.pointerEvents = "none"; // Niet meer klikbaar
+    currentLi.classList.add("disabled"); // Bootstrap: grijs maken
 
-    let nextIndex = currentQuestionIndex + 1;
+    let nextIndex = currentQuestionIndex + 1; // Volgende index zoeken
     while (nextIndex < quizData.length && quizData[nextIndex].selected) {
-        nextIndex++;
+        nextIndex++; // Sla al beantwoorde vragen over
     }
     if (nextIndex < quizData.length) {
-        toonvraag(nextIndex);
+        toonvraag(nextIndex); // Toon volgende onbeantwoorde vraag
     }
 };
 
-const reset = () => {
-    currentQuestionIndex = 0;
-    juisteAntwoorden = 0;
+const reset = () => { // Reset het spel
+    currentQuestionIndex = 0; // Terug naar begin
+    juisteAntwoorden = 0; // Score op 0
 
-    for (let i = 0; i < quizData.length; i++) {
-        quizData[i].selected = "";
-    }
+    quizData.forEach(vraag => vraag.selected = ""); // Alle keuzes wissen
 
-    document.getElementById("answers").innerHTML = "";
-    document.querySelector(".card-header").innerText = "";
-    document.querySelector(".card-body").innerText = "";
+    document.getElementById("answers").innerHTML = ""; // Antwoorden leegmaken
+    document.querySelector(".card-header").innerText = ""; // Header leeg
+    document.querySelector(".card-body").innerText = ""; // Body leeg
 
-    const listItems = document.querySelectorAll("#questions .list-group-item");
-    for (let i = 0; i < listItems.length; i++) {
-        listItems[i].classList.remove("disabled");
-        listItems[i].style.pointerEvents = "";
-        listItems[i].style.backgroundColor = "";
-        listItems[i].style.color = "";
-    }
-
-    const questionList = document.getElementById("questions");
-    questionList.innerHTML = "";
-    for (let index = 0; index < quizData.length; index++) {
+    const questionList = document.getElementById("questions"); // Lijst met vraagnummers
+    questionList.innerHTML = ""; // Leegmaken
+    quizData.forEach((vraag, index) => { // Vraaglijst opnieuw opbouwen
         const li = document.createElement("li");
         li.className = "list-group-item list-group-item-action";
         li.innerText = `Vraag ${index + 1}`;
         li.style.cursor = "pointer";
         li.addEventListener("click", () => toonvraag(index));
         questionList.appendChild(li);
-    }
+    });
 
-    toonvraag(0);
+    toonvraag(0); // Eerste vraag opnieuw tonen
 
-    document.getElementById("quiz").classList.add("d-none");
-    document.getElementById("start").parentElement.classList.remove("d-none");
+    document.getElementById("quiz").classList.add("d-none"); // Quiz verbergen
+    document.getElementById("start").parentElement.classList.remove("d-none"); // Startknop terug tonen
 
-    const savedScores = JSON.parse(localStorage.getItem("quizScores")) || [];
-    const footer = document.getElementById("highscores");
-    while (footer.querySelector("p")) {
-        footer.removeChild(footer.querySelector("p"));
-    }
-    for (let i = 0; i < savedScores.length; i++) {
-        const scoreElement = document.createElement("p");
-        scoreElement.innerText = savedScores[i];
-        footer.appendChild(scoreElement);
-    }
+    const savedScores = JSON.parse(localStorage.getItem("quizScores")) || []; // Scores ophalen
+    const footer = document.getElementById("highscores"); // Footer element
+    footer.innerHTML = ""; // Leegmaken
+    savedScores.forEach(score => { // Elke score toevoegen aan footer
+        const p = document.createElement("p");
+        p.innerText = score;
+        footer.appendChild(p);
+    });
 };
 
-window.addEventListener("load", setup);
+window.addEventListener("load", setup); // Start setup als pagina geladen is

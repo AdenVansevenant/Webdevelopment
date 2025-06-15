@@ -1,0 +1,45 @@
+#playField.geblokkeerd {
+	cursor:wait;	
+}
+
+#playField.klaar{
+	background-image:url(image/klaar.png);
+	background-repeat:no-repeat;
+	background-size:contain;
+}
+
+.vak {
+	display:inline-block;
+	width:100px;
+	height:100px;
+	margin:10px;
+	padding:1px;
+	overflow:hidden; /* toegevoegd om collapsing margins tussen parent (.vak) en child (.kaart) te vermijden */
+    background-color:white;
+}
+
+.kaart {
+    width: 100px;
+    height: 100px;
+    border : 1px solid black;
+    box-sizing: border-box; /* zodat we size niet +2 moeten doen wegens 1px border ;) */
+}
+
+.kaart.achterkant {
+    background-color:lightgray;
+}
+.kaart.achterkant:hover {
+	background-color:black;
+}
+
+.kaart.voorkant {
+    background-color:black;
+}
+
+.kaart.voorkant.goed {
+	background-color:lightgreen;
+}
+
+.kaart.voorkant.fout {
+	background-color:red;
+}

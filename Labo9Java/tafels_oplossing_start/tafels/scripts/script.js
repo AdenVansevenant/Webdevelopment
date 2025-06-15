@@ -9,23 +9,30 @@ const setup = () => {
     getalLabel.addEventListener("click", () => getalInput.focus());
 
     formulier.addEventListener("submit", (e) => {
-        const waarde = getalInput.value.trim();
+        e.preventDefault(); // belangrijk om de pagina niet te herladen bij submit
 
+        const waarde = getalInput.value.trim();
         const getal = Number(waarde);
 
-        const tijdstip = new Date().toLocaleTimeString();
-        toegevoegdeTafels.push({ getal, tijdstip });
+        if (!isNaN(getal) && getal > 0) {
+            const tijdstip = new Date().toLocaleTimeString();
+            toegevoegdeTafels.push({ getal, tijdstip });
 
-        sessionStorage.setItem("tafels", JSON.stringify(toegevoegdeTafels));
+            sessionStorage.setItem("tafels", JSON.stringify(toegevoegdeTafels));
 
-        getalInput.value = "";
-        toonTafels();
+            getalInput.value = "";
+            toonTafels();
+        }
     });
 
     const toonTafels = () => {
-        tafelsContainer.innerHTML = "";
+        // Leegmaken zonder innerHTML
+        while (tafelsContainer.firstChild) {
+            tafelsContainer.removeChild(tafelsContainer.firstChild);
+        }
 
-        toegevoegdeTafels.forEach((tafelInfo) => {
+        for (let i = 0; i < toegevoegdeTafels.length; i++) {
+            const tafelInfo = toegevoegdeTafels[i];
             const getal = tafelInfo.getal;
             const tijdstip = tafelInfo.tijdstip;
 
@@ -34,22 +41,26 @@ const setup = () => {
 
             const kop = document.createElement("div");
             kop.className = "tafel-header";
-            kop.textContent = "Tafel van " + getal + " aangemaakt op: " + tijdstip;
+            const kopText = document.createTextNode("Tafel van " + getal + " aangemaakt op: " + tijdstip);
+            kop.appendChild(kopText);
             tafelBlok.appendChild(kop);
 
-            for (let i = 1; i <= 10; i++) {
+            for (let j = 1; j <= 10; j++) {
                 const rij = document.createElement("div");
                 rij.className = "rij";
-                if (i % 2 === 0) {
+                if (j % 2 === 0) {
                     rij.classList.add("even");
                 }
-                rij.textContent = i + " x " + getal + " = " + (i * getal);
+
+                const rijText = document.createTextNode(j + " x " + getal + " = " + (j * getal));
+                rij.appendChild(rijText);
                 tafelBlok.appendChild(rij);
             }
 
             tafelsContainer.appendChild(tafelBlok);
-            getalInput.focus();
-        });
+        }
+
+        getalInput.focus();
     };
 
     toonTafels();
